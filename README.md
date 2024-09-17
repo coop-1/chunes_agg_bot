@@ -1,2 +1,2 @@
 # chunes_agg_bot
-moves daily chune finds from fam bidness discord to spotify playlist
+friendly little music bot that moves daily chune finds from discord server to spotify playlist
