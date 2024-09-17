@@ -1,0 +1,16 @@
+2024-09-17 00:27:11,830 -- bot now botting !
+2024-09-17 00:27:11,830 -- config complete
+2024-09-17 00:27:11,830 -- api headers set up
+2024-09-17 00:27:11,830 -- beginning ingest flow
+2024-09-17 00:27:11,830 -- getting discord_channel_id...
+2024-09-17 00:27:11,972 -- discord_channel_id for discord_channel chunes --> 1083905998655344683
+2024-09-17 00:27:11,972 -- getting spotify_target_tracks from discord channel...
+2024-09-17 00:27:12,240 -- 
+			spotify_target_tracks collected
+			['spotify:track:4P6DSTBeIlzckVKPFN3Uyw', 'spotify:track:1cHcOhWO0XUjrtSMlc98IP', 'spotify:track:2VTpMLEAkRwy1fpokBElm6']
+			
+2024-09-17 00:27:12,240 -- refreshing spotify access token...
+2024-09-17 00:27:12,337 -- spotify access token refreshed
+2024-09-17 00:27:12,337 -- inserting spotify_target_tracks into spotify_playlist_id 60tHhs9aeSr92VYqoq52EW...
+2024-09-17 00:27:12,482 -- {"snapshot_id":"AAAAEShGf/huM9b5wfQtG9t4PcnBvjRS"}
+2024-09-17 00:27:12,482 -- tracks from today failed to insert.. figure it out bruh !
