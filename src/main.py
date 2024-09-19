@@ -9,8 +9,6 @@ def main():
 
 	root_path = os.path.dirname(os.path.dirname(__file__))
 
-	print(root_path)
-
 	logger = logging.getLogger(__name__)
 	logging.basicConfig(
 		filename = f'{root_path}/log/chunes_agg_discord_bot.log'
@@ -59,7 +57,7 @@ def main():
 		spotify_target_tracks = api_operations.get_guild_channel_messages(logger, discord_base, discord_header, discord_channel_id, target_day = None)
 		keep_going = True
 		logger.info(f"""
-			spotify_target_tracks collected
+			spotify_target_tracks collected - 
 			{spotify_target_tracks}
 			""")
 	else:
@@ -77,18 +75,18 @@ def main():
 		keep_going = False
 		logger.error('failed to refresh spotify access token - bot is exiting (repairs needed)...')
 
-	logger.info(f'inserting spotify_target_tracks into spotify_playlist_id {spotify_playlist_id}...')
+	logger.info(f'beginning spotify_target_tracks upsert into spotify_playlist_id {spotify_playlist_id}')
 	if spotify_refreshed_access_token != None and keep_going == True:
-		insert_success = api_operations.insert_spotify_track_into_playlist(logger, spotify_web_base, spotify_refreshed_access_token, spotify_target_tracks, spotify_playlist_id)
+		insert_success = api_operations.upsert_spotify_track_into_playlist(logger, spotify_web_base, spotify_refreshed_access_token, spotify_target_tracks, spotify_playlist_id)
 		keep_going = True
 
 	else:
 		keep_going = False
 
-	if insert_success == True:
-		logger.info('tracks from today successfully inserted.. good shit !')
+	if insert_success == True and keep_going == True:
+		logger.info('tracks from today successfully upserted.. good shit !')
 	else:
-		logger.error('tracks from today failed to insert.. figure it out bruh !')
+		logger.error('tracks from today failed to upserted.. figure it out bruh !')
 
 if __name__ == '__main__':
 	main()
