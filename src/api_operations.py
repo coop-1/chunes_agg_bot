@@ -51,7 +51,8 @@ def get_guild_channel_messages(logger, discord_base, discord_header, channel_id,
 			messages_df['date_et'] = messages_df['timestamp'].apply(lambda x: parse(x).astimezone(pytz.timezone('US/Eastern')).date())
 			logger.info('message timestamp converted')
 
-			target_day = datetime.now().date() - timedelta(days = 1) ## default to prior day if no parameter is provided
+			if target_day == None:
+				target_day = datetime.now().date() - timedelta(days = 1) ## default to prior day if no parameter is provided
 
 			## filter to target_date only
 			logger.info(f'filtering to tracks for {target_day}')
@@ -61,15 +62,10 @@ def get_guild_channel_messages(logger, discord_base, discord_header, channel_id,
 			    ]['content'].to_list()
 			logger.info('tracks filtered')
 
-			## clean up format to match spotify requirement for api post call
-			logger.info('cleaning up format for spotify playlist insert...')
-			target_tracks = [f"spotify:track:{x.replace('https://open.spotify.com/','').split('/')[1].split('?')[0]}" for x in filtered_tracks]
-			logger.info('format tidied')
-
-			return target_tracks
+			return filtered_tracks
 
 		else:
-			return None
+			return [channel_messages_response.status_code]
 
 	except Exception as err:
 		logger.error(f'failed to retrieve discord channel messages - {err}')
@@ -150,4 +146,60 @@ def upsert_spotify_track_into_playlist(logger, spotify_web_base, spotify_refresh
 		return None
 
 	logger.info('tracks inserted')
+
+def spotify_track_cleanup(logger, spotify_web_base, spotify_refreshed_access_token, spotify_target_tracks):
+
+	album_list = []
+
+	logger.info('looking for albums in todays messages...')
+	for track in spotify_target_tracks:
+		if track.split('/')[3] == 'album':
+			album_id = track.split('/')[4].split('?')[0]
+			logger.info(f'album found - {album_id}')
+			album_list.append(album_id)
+			spotify_target_tracks.remove(track)
+
+	logger.info('beginning unpacking individual tracks from albums...')
+	if len(album_list) > 0:
+
+		header = {
+		    'Authorization': f'Bearer {spotify_refreshed_access_token}'
+		    ,'Content-Type': 'application/json'
+		}
+
+		for album_id in album_list:
+
+			logger.info(f'unpacking album_id {album_id}...')
+
+			try:
+				album_url = f'{spotify_web_base}/albums/{album_id}/tracks'
+
+				album_lookup_response = requests.get(url = album_url, headers = header)
+
+				logger.info(f'status code - {album_lookup_response.status_code}')
+
+				if album_lookup_response.status_code == 200:
+
+					album_tracks = pd.DataFrame(json.loads(album_lookup_response.text)['items'])['uri'].to_list()
+
+				else:
+					return None	
+
+			except Exception as err:
+				logger.error(f'failed to perform lookup on album {album_id} - {err}')
+				return None
+
+			logger.info(f'album_id {album_id} unpacked')
+	logger.info('album unpacking complete')
+
+	# clean up formats to match spotify requirement for api post call
+	logger.info('cleaning up track format for spotify playlist insert...')
+	tracks_unpacked = [f"spotify:track:{track.replace('https://open.spotify.com/','').split('/')[1].split('?')[0]}" for track in spotify_target_tracks]
+	logger.info('format track structure tidied')
+	
+	logger.info('adding unpacked album tracks to main list for spotify playlist insert...')
+	tracks_unpacked.extend(album_tracks)
+	logger.info('album tracks added')
+
+	return tracks_unpacked
 
