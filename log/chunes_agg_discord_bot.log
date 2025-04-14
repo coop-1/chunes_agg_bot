@@ -1,16 +1,38 @@
-2024-09-17 00:27:11,830 -- bot now botting !
-2024-09-17 00:27:11,830 -- config complete
-2024-09-17 00:27:11,830 -- api headers set up
-2024-09-17 00:27:11,830 -- beginning ingest flow
-2024-09-17 00:27:11,830 -- getting discord_channel_id...
-2024-09-17 00:27:11,972 -- discord_channel_id for discord_channel chunes --> 1083905998655344683
-2024-09-17 00:27:11,972 -- getting spotify_target_tracks from discord channel...
-2024-09-17 00:27:12,240 -- 
-			spotify_target_tracks collected
-			['spotify:track:4P6DSTBeIlzckVKPFN3Uyw', 'spotify:track:1cHcOhWO0XUjrtSMlc98IP', 'spotify:track:2VTpMLEAkRwy1fpokBElm6']
-			
-2024-09-17 00:27:12,240 -- refreshing spotify access token...
-2024-09-17 00:27:12,337 -- spotify access token refreshed
-2024-09-17 00:27:12,337 -- inserting spotify_target_tracks into spotify_playlist_id 60tHhs9aeSr92VYqoq52EW...
-2024-09-17 00:27:12,482 -- {"snapshot_id":"AAAAEShGf/huM9b5wfQtG9t4PcnBvjRS"}
-2024-09-17 00:27:12,482 -- tracks from today failed to insert.. figure it out bruh !
+2025-04-10 02:47:14,212 -- bot now botting !
+2025-04-10 02:47:14,225 -- Found credentials in shared credentials file: ~/.aws/credentials
+2025-04-10 02:47:14,648 -- config complete
+2025-04-10 02:47:14,648 -- api headers set up
+2025-04-10 02:47:14,648 -- refreshing spotify access token...
+2025-04-10 02:47:14,733 -- status code - 200
+2025-04-10 02:47:14,733 -- spotify access token refreshed
+2025-04-10 02:47:14,733 -- beginning ingest flow
+2025-04-10 02:47:14,734 -- getting discord_channel_id...
+2025-04-10 02:47:14,877 -- status code - 200
+2025-04-10 02:47:14,878 -- discord_channel_id for discord_channel chunes --> 1083905998655344683
+2025-04-10 02:47:14,878 -- getting spotify_target_tracks from discord channel...
+2025-04-10 02:47:14,881 -- first_iteration
+2025-04-10 02:47:14,882 -- minimum_date = 2025-04-08
+2025-04-10 02:47:15,231 -- status code - 200
+2025-04-10 02:47:15,231 -- converting message timestamp to est and date type...
+2025-04-10 02:47:15,274 -- message timestamp converted
+2025-04-10 02:47:15,274 -- 0
+2025-04-10 02:47:15,274 -- dataframe empty - first iteration
+2025-04-10 02:47:15,276 -- minimum timestamp from this batch - 2025-03-14 15:30:21.111000-04:00
+2025-04-10 02:47:15,276 -- minimum message_id from this batch - 1350189328047013971
+2025-04-10 02:47:16,281 -- iteration - 1350189328047013971
+2025-04-10 02:47:16,282 -- minimum_date = 2025-03-14
+2025-04-10 02:47:16,282 -- messages gathered for 2025-04-08
+2025-04-10 02:47:16,287 -- discord message collected for 2025-04-08
+2025-04-10 02:47:16,287 -- filtering discord messages for spotify...
+2025-04-10 02:47:16,287 -- filtering to tracks for 2025-04-08
+2025-04-10 02:47:16,305 -- tracks filtered
+2025-04-10 02:47:16,305 -- beginning track cleanup
+2025-04-10 02:47:16,305 -- looking for albums in todays messages...
+2025-04-10 02:47:16,305 -- tracks cleaned up
+2025-04-10 02:47:16,305 -- beginning spotify_target_tracks upsert into spotify_playlist_id 0LEWmH7doafk6tvx3oW7Pr
+2025-04-10 02:47:16,305 -- total track list size - 1
+2025-04-10 02:47:16,305 -- track subset range - 0 to 1
+2025-04-10 02:47:16,305 -- deleting tracks from playlist 0LEWmH7doafk6tvx3oW7Pr...
+2025-04-10 02:47:16,450 -- status code - 403
+2025-04-10 02:47:16,451 -- status code - 403 | {"error": {"status": 403, "message": "Forbidden" } }
+2025-04-10 02:47:16,451 -- tracks from today failed to upsert.. figure it out bruh !
